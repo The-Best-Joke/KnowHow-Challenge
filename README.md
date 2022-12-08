@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# KnowHow's React Challenge App – By Alejandro Salazar
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
