@@ -1,17 +1,10 @@
-import {
-  ActionIcon,
-  Container,
-  Grid,
-  Space,
-  TextInput,
-  useMantineTheme,
-} from "@mantine/core";
+import { ActionIcon, Space, TextInput, useMantineTheme } from "@mantine/core";
 import { IconArrowLeft, IconArrowRight, IconSearch } from "@tabler/icons";
 import axios from "axios";
 import React, { useState } from "react";
-import { BadgeCard } from "./BadgeCard";
+import ResultsContainer from "./ResultsContainer";
 
-const SearchBar = () => {
+const SearchPage = () => {
   const theme = useMantineTheme();
   const [searchInput, setSearchInput] = useState("");
   const [results, setResults] = useState([]);
@@ -24,7 +17,6 @@ const SearchBar = () => {
       const resp = await axios.get("https://api.giphy.com/v1/gifs/search", {
         params: { api_key: APIKEY, q: searchInput },
       });
-      console.log(resp.data);
       setResults(resp.data.data);
     } catch (err) {
       console.log(err);
@@ -34,10 +26,6 @@ const SearchBar = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setSearchInput(e.target.value);
-  };
-
-  const sliceLastFive = (url: string) => {
-    return url.slice(0, -5);
   };
 
   return (
@@ -62,25 +50,13 @@ const SearchBar = () => {
             )}
           </ActionIcon>
         }
-        placeholder="Search questions"
+        placeholder="Search gifs!"
         rightSectionWidth={42}
       />
       <Space h="md" />
-      <Container>
-        <Grid>
-          {results.length > 0 &&
-            results.map((result: any) => (
-              <Grid.Col xs={3} key={result.id}>
-                <BadgeCard
-                  title={result.title}
-                  image={sliceLastFive(result.images.original.webp)}
-                />
-              </Grid.Col>
-            ))}
-        </Grid>
-      </Container>
+      {results.length > 0 && <ResultsContainer results={results} />}
     </>
   );
 };
 
-export default SearchBar;
+export default SearchPage;
